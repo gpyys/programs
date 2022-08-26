@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clone</title>
+  </head>
+  <body>
+    <script>
+      let obj = {
+        a: 1,
+        b: 'anc',
+        c: {
+          a: 2,
+        },
+        d: [1, 2, 3, 4],
+        reg: /^[0-9]$/,
+        time: new Date(),
+        flag: true,
+        aa: Symbol('aa'),
+      }
+      obj.v = obj
+
+      function bar(){
+        console.log(111)
+      }
+
+      console.log(bar.toString())
+
+      const mapTag = '[object Map]'
+      const setTag = '[object Set]'
+      const arrayTag = '[object Array]'
+      const objectTag = '[object Object]'
+
+      const boolTag = '[object Boolean]'
+      const dateTag = '[object Date]'
+      const errorTag = '[object Error]'
+      const numberTag = '[object Number]'
+      const regexpTag = '[object RegExp]'
+      const stringTag = '[object String]'
+      const symbolTag = '[object Symbol]'
+
+      const deepTag = [mapTag, setTag, arrayTag, objectTag]
+
+      function each(arr, iteratee) {
+        let index = -1
+        while (++index < arr.length) {
+          iteratee(arr[index], index)
+        }
+        return arr
+      }
+
+      function isObject(target) {
+        let type = typeof target
+        return target !== null && ['object', 'function'].includes(type)
+      }
+
+      function getType(target) {
+        return Object.prototype.toString.call(target)
+      }
+
+      function getInt(target) {
+        return new target.constructor()
+      }
+
+      function cloneSymbol(targe) {
+        return Object(Symbol.prototype.valueOf.call(targe))
+      }
+
+      function cloneReg(targe) {
+        const reFlags = /\w*$/
+        const result = new targe.constructor(targe.source, reFlags.exec(targe))
+        result.lastIndex = targe.lastIndex
+        return result
+      }
+
+      function clone(target, map = new WeakMap()) {
+        if (!isObject(target)) {
+          return target
+        }
+
+        const type = getType(target)
+
+        if (deepTag.includes(type)) {
+          let cloneTarget = Array.isArray(target) ? [] : {}
+
+          if (map.get(target)) {
+            return target
+          }
+          map.set(target, cloneTarget)
+
+          // const keys = Array.isArray(target) ? target : Object.keys(target)
+          // each(keys,(key,index) => {
+          //   cloneTarget[key] = clone(target[key],map)
+          // })
+          for (const key in target) {
+            cloneTarget[key] = clone(target[key], map)
+          }
+
+          return cloneTarget
+        }else if(type === regexpTag){
+          return cloneReg(target)
+        }else if (type === symbolTag) {
+          return cloneSymbol(target)
+        }else{
+          return new target.constructor(target)
+        }
+      }
+
+      let obj2 = clone(obj)
+      obj2.c.a = 4
+      console.log(obj, obj2)
+    </script>
+  </body>
+</html>
