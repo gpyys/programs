@@ -1,22 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    // let arr = [1,3,4,5]
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // let arr = [1,3,4,5]
 
-    // let total = arr.reduce((res,item,index) => {
-    //   return res + item
-    // },0)
-    // console.log(total)
-    add(1)(2)(3)
-    // 柯里化：是一种“预先存储”思想，闭包的进阶应用， 利用闭包的保存作用。
-              // 函数执行产生闭包，把一些后续要用的值，存储到闭包的某个私有变量中，上下文想用的时候直接用。
-  </script>
-</body>
+      // 柯里化：是一种“预先存储”思想，闭包的进阶应用， 利用闭包的保存作用。
+      // 函数执行产生闭包，把一些后续要用的值，存储到闭包的某个私有变量中，上下文想用的时候直接用。
+
+      let params = []
+      function add(...args) {
+        params = params.concat(args)
+        return add
+      }
+
+      add.toString = function(){
+        return params.reduce((res, item, index) => {
+          return res + item
+        }, 0)
+      }
+      let res = add(1)(2)(3)(8)
+      console.log(+res)
+      
+
+
+
+      // let res = fn(1,2)(3)
+      // console.log(res) //6
+
+      // function fn (...params){
+      //   return function sub (...args){
+      //     let arr = [...params,...args]
+      //     return arr.reduce((res,item )=> res+item)
+      //   }
+      // }
+
+
+      // function curry(){
+      //   let params = []
+      //   let add = function add (...args){
+      //     params = params.concat(args)
+      //     return add
+      //   }
+      //   add.toString = function(){
+      //     return params.reduce((res,item )=> res+item)
+      //   }
+      //   return add 
+      // }
+      // let add = curry()
+      // let res = add(1)(2)(4)
+      // console.log(+res)
+     
+    </script>
+  </body>
 </html>

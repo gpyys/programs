@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>flat</title>
+  </head>
+  <body>
+    <script>
+      //  const animals = ["🐷", ["🐶", "🐂"], ["🐎", ["🐑", ["🐲"]], "🐛"]];
+      const animals = [1, 2, 3, 4, [4, 3, 5, [3, 6]]]
+      //
+      // function flat(arr){
+      //   let result = []
+      //   arr.forEach(item => {
+      //     if(Array.isArray(item)){
+      //       result = result.concat(arguments.callee(item))
+      //     }else{
+      //       result.push(item)
+      //     }
+      //   });
+      //   return result
+      // }
+
+      function reduceFlat(arr, num = 'Infinity') {
+        if (num > 0) {
+          return arr.reduce((res, item) => {
+            if (Array.isArray(item)) {
+              return res.concat(reduceFlat(item,(num-1)))
+            } else {
+              return res.concat(item)
+            }
+          }, [])
+        } else {
+          return arr
+        }
+      }
+      console.log(reduceFlat(animals,1))
+
+      // function stackFlat(arr) {
+      //   let result = []
+      //   let stack = [].concat(arr)
+      //   while(stack.length !== 0){
+      //     const val = stack.pop()
+      //     if(Array.isArray(val)){
+      //       stack.push(...val)
+      //     }else{
+      //       result.unshift(val)
+      //     }
+      //   }
+      //   return result
+      // }
+      // console.log(stackFlat(animals))
+    </script>
+  </body>
+</html>

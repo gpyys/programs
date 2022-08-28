@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 力扣334
+      s = ['h', 'e', 'l', 'l', 'o']
+
+      function reverseString(arr) {
+        let start = 0
+        let end = s.length - 1
+
+        while(start <= end){
+          [s[start],s[end]] = [s[end],s[start]]
+          start++
+          end--
+        }
+        return s
+      }
+      console.log(reverseString(s))
+    </script>
+  </body>
+</html>
